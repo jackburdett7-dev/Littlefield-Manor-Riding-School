@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gallery | Littlefield Manor Riding School Guildford</title>
+    <meta name="description" content="Photos of Littlefield Manor Riding School in Worplesdon, Guildford — horses, the all-weather arena, lessons, and pony days with Linda.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garant:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300;1,9..40,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* Lightbox counter + nav */
+        .lb-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            color: white;
+            background: rgba(0,0,0,0.45);
+            border: none;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            font-size: 1.4rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 3;
+            transition: background 0.2s;
+        }
+        .lb-nav:hover { background: rgba(0,0,0,0.7); }
+        .lb-prev { left: 1.5rem; }
+        .lb-next { right: 1.5rem; }
+        .lb-counter {
+            position: absolute;
+            top: 1.5rem;
+            left: 2rem;
+            color: rgba(255,255,255,0.75);
+            font-size: 0.78rem;
+            letter-spacing: 0.12em;
+            z-index: 3;
+        }
+    </style>
+</head>
+<body>
+
+<nav class="nav">
+    <div class="container">
+        <div class="nav-inner">
+            <a href="index.html" class="nav-logo">
+                <img src="assets/logo.svg" alt="Littlefield Manor crest" width="40" height="40">
+                <span class="nav-logo-text">
+                    <span class="nav-logo-name">Littlefield Manor</span>
+                    <span class="nav-logo-sub">Riding School</span>
+                </span>
+            </a>
+            <ul class="nav-links" role="list">
+                <li><a href="lessons.html">Lessons</a></li>
+                <li><a href="pony-days.html">Pony Days</a></li>
+                <li><a href="about.html">About Linda</a></li>
+                <li><a href="gallery.html" class="nav-active">Gallery</a></li>
+                <li><a href="prices.html">Prices</a></li>
+            </ul>
+            <a href="contact.html" class="nav-cta">Book a Lesson</a>
+            <button class="nav-toggle" aria-label="Open menu"><span></span><span></span><span></span></button>
+        </div>
+    </div>
+</nav>
+<div class="mobile-menu">
+    <a href="lessons.html">Lessons</a>
+    <a href="pony-days.html">Pony Days &amp; Parties</a>
+    <a href="about.html">About Linda</a>
+    <a href="gallery.html">Gallery</a>
+    <a href="prices.html">Prices</a>
+    <a href="contact.html" style="color:var(--green)">Book a Lesson</a>
+</div>
+
+<div class="page-hero">
+    <div class="container">
+        <span class="eyebrow">Our School</span>
+        <h1>The <em style="color:#a8d5b5;">Gallery</em></h1>
+        <p>A glimpse inside Littlefield Manor — the horses, the arena, the lessons, and the moments that make people keep coming back.</p>
+    </div>
+</div>
+
+<section>
+    <div class="container">
+        <!-- NOTE: Replace placeholder items with Linda's 12 gallery photos.
+             Photos are named 1.jpg through 12.jpg — add them to assets/gallery/
+             The current site at horseridingguildford.co.uk has 12 images available.
+             Ask Linda to supply originals for best quality. -->
+        <div class="gallery-full stagger-children">
+            <div class="gallery-item tall">
+                <img src="assets/gallery/1.jpg" alt="Horse jumping a show jump in the all-weather arena at Littlefield Manor" loading="lazy">
+            </div>
+            <div class="gallery-item">
+                <img src="assets/gallery/2.jpg" alt="Young child enjoying a pony lesson at Littlefield Manor" loading="lazy" style="object-position:center top;">
+            </div>
+            <div class="gallery-item">
+                <img src="assets/gallery/3.jpg" alt="Horse and rider jumping at Littlefield Manor" loading="lazy">
+            </div>
+            <div class="gallery-item">
+                <img src="assets/gallery/4.jpg" alt="Group lesson in the outdoor arena at Littlefield Manor" loading="lazy">
+            </div>
+            <div class="gallery-item tall">
+                <img src="assets/gallery/5.jpg" alt="Young rider in the arena at Littlefield Manor, Guildford" loading="lazy">
+            </div>
+            <div class="gallery-item">
+                <img src="assets/gallery/6.jpg" alt="Riders lined up in the arena at Littlefield Manor" loading="lazy">
+            </div>
+            <div class="gallery-item">
+                <img src="assets/gallery/7.jpg" alt="Linda, instructor at Littlefield Manor Riding School" loading="lazy">
+            </div>
+            <div class="gallery-item">
+                <img src="assets/gallery/8.jpg" alt="Group lesson at Littlefield Manor's all-weather arena" loading="lazy">
+            </div>
+            <div class="gallery-item tall">
+                <img src="assets/gallery/9.jpg" alt="Riders working over poles at Littlefield Manor" loading="lazy">
+            </div>
+            <div class="gallery-item">
+                <img src="assets/gallery/10.jpg" alt="Two riders cantering at Littlefield Manor" loading="lazy">
+            </div>
+            <div class="gallery-item">
+                <img src="assets/gallery/11.jpg" alt="Stables and tack at Littlefield Manor Riding School" loading="lazy">
+            </div>
+            <div class="gallery-item">
+                <img src="assets/gallery/12.jpg" alt="Yard and facilities at Littlefield Manor, Worplesdon" loading="lazy">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA -->
+<section style="background:var(--green); padding:4rem 0; text-align:center;">
+    <div class="container-narrow">
+        <div class="reveal">
+            <h2 style="color:white; margin-bottom:1.25rem;">Like what you see?</h2>
+            <p style="color:rgba(255,255,255,0.8); margin-bottom:2rem;">Come and experience it in person. Your first lesson is just a phone call or message away.</p>
+            <div class="btn-group" style="justify-content:center;">
+                <a href="contact.html" class="btn btn-gold">Book a Lesson</a>
+                <a href="tel:07973302316" class="btn btn-ghost">Call 07973 302316</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer class="footer">
+    <div class="container">
+        <div class="footer-bottom" style="border-top:1px solid rgba(255,255,255,0.1); padding-top:2rem;">
+            <p>&copy; 2026 Littlefield Manor Riding School · Aldershot Road, Guildford GU3 3HJ</p>
+            <a href="tel:07973302316" class="footer-phone">07973 302316</a>
+        </div>
+    </div>
+</footer>
+
+<a href="https://wa.me/447973302316" class="whatsapp-float" target="_blank" rel="noopener" aria-label="Chat with Linda on WhatsApp">
+    <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
+</a>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" crossorigin="anonymous"></script>
+<script src="js/main.js"></script>
+</body>
+</html>

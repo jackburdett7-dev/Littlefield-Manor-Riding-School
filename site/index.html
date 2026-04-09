@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Littlefield Manor Riding School | Horse Riding Lessons Guildford</title>
+    <meta name="description" content="Horse riding lessons in Guildford, Surrey. BHS-trained instructor Linda welcomes nervous beginners, children from age 6, and experienced riders. Group, private &amp; semi-private lessons available.">
+    <meta name="keywords" content="horse riding lessons Guildford, riding school Worplesdon, BHS approved Surrey, nervous rider lessons, children's horse riding Guildford">
+    <meta property="og:title" content="Littlefield Manor Riding School | Guildford, Surrey">
+    <meta property="og:description" content="BHS-trained riding instructor in Worplesdon, Guildford. Nervous riders always welcome. Children from age 6.">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="assets/gallery/1.jpg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garant:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300;1,9..40,400&display=swap" rel="stylesheet">
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "RidingSchool",
+        "name": "Littlefield Manor Riding School",
+        "description": "Small independent horse riding school in Worplesdon, Guildford. BHS-trained instructor, all levels welcome.",
+        "url": "https://horseridingguildford.co.uk",
+        "telephone": "07973302316",
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "Aldershot Road",
+            "addressLocality": "Worplesdon, Guildford",
+            "addressRegion": "Surrey",
+            "postalCode": "GU3 3HJ",
+            "addressCountry": "GB"
+        },
+        "priceRange": "££"
+    }
+    </script>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* ── Homepage-specific additions ── */
+
+        /* Stats strip */
+        .stats-strip { background: var(--green); padding: 2.5rem 0; }
+        .stats-inner { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; }
+        .stat-item { text-align: center; padding: 1rem 1.5rem; border-right: 1px solid rgba(255,255,255,0.15); }
+        .stat-item:last-child { border-right: none; }
+        .stat-number { font-family: 'Instrument Serif', serif; font-size: clamp(2rem, 4vw, 3rem); color: white; line-height: 1; display: block; }
+        .stat-label { font-size: 0.78rem; color: rgba(255,255,255,0.75); text-transform: uppercase; letter-spacing: 0.12em; margin-top: 0.4rem; display: block; }
+
+        /* Feature blocks */
+        .feature-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
+        .feature-block { background: var(--card); border: 1px solid var(--divider); border-radius: var(--radius-lg); padding: 2rem; display: flex; gap: 1.25rem; align-items: flex-start; }
+        .feature-icon { width: 48px; height: 48px; background: var(--green-light); border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .feature-icon svg { width: 22px; height: 22px; stroke: var(--green); }
+        .feature-block h4 { margin-bottom: 0.4rem; font-size: 1.05rem; }
+        .feature-block p { font-size: 0.88rem; color: var(--muted); margin: 0; }
+
+        /* Persona tiles */
+        .persona-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; }
+        .persona-tile { border-radius: var(--radius-lg); overflow: hidden; position: relative; cursor: pointer; }
+        .persona-tile img { width: 100%; height: 280px; object-fit: cover; display: block; transition: transform 0.4s ease; }
+        .persona-tile:hover img { transform: scale(1.04); }
+        .persona-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(20,40,28,0.9) 0%, rgba(20,40,28,0.3) 60%, transparent 100%); display: flex; flex-direction: column; justify-content: flex-end; padding: 1.5rem; }
+        .persona-tag { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.18em; color: #a8d5b5; font-weight: 600; margin-bottom: 0.4rem; }
+        .persona-title { font-family: 'Instrument Serif', serif; font-size: 1.25rem; color: white; line-height: 1.2; margin-bottom: 0.5rem; }
+        .persona-link { font-size: 0.78rem; color: rgba(255,255,255,0.7); }
+
+        /* Steps */
+        .steps-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; position: relative; }
+        .steps-grid::before { content: ''; position: absolute; top: 28px; left: calc(16.66% + 1rem); right: calc(16.66% + 1rem); height: 1px; background: var(--divider); z-index: 0; }
+        .step { text-align: center; position: relative; z-index: 1; }
+        .step-num { width: 56px; height: 56px; border-radius: 50%; background: var(--green); color: white; font-family: 'Instrument Serif', serif; font-size: 1.4rem; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.25rem; border: 3px solid var(--ivory); box-shadow: 0 0 0 1px var(--green); }
+        .step h4 { margin-bottom: 0.5rem; }
+        .step p { font-size: 0.88rem; color: var(--muted); }
+
+        /* Rating strip */
+        .rating-strip { background: var(--green-light); border: 1px solid #c5dcc9; border-radius: var(--radius-lg); padding: 1.5rem 2rem; display: flex; align-items: center; gap: 2rem; margin-bottom: 2.5rem; }
+        .rating-stars-big { font-size: 1.5rem; color: var(--gold); letter-spacing: 2px; }
+        .rating-text strong { display: block; font-size: 1rem; }
+        .rating-text span { font-size: 0.82rem; color: var(--muted); }
+        .rating-divider { width: 1px; height: 40px; background: var(--divider); }
+
+        /* Location bar */
+        .location-bar { background: var(--ivory-dark); border-top: 1px solid var(--divider); }
+        .location-inner { display: flex; align-items: center; justify-content: space-between; padding: 1.25rem 0; gap: 2rem; flex-wrap: wrap; }
+        .location-detail { display: flex; align-items: center; gap: 0.6rem; font-size: 0.85rem; color: var(--muted); }
+        .location-detail svg { width: 16px; height: 16px; stroke: var(--green); flex-shrink: 0; }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .persona-grid { grid-template-columns: repeat(2, 1fr); }
+            .feature-grid { grid-template-columns: 1fr; }
+            .why-grid { grid-template-columns: repeat(2, 1fr) !important; }
+        }
+        @media (max-width: 768px) {
+            .stats-inner { grid-template-columns: repeat(2, 1fr); }
+            .why-grid { grid-template-columns: 1fr 1fr !important; }
+            .stat-item:nth-child(2) { border-right: none; }
+            .stat-item:nth-child(1), .stat-item:nth-child(2) { border-bottom: 1px solid rgba(255,255,255,0.15); }
+            .persona-grid { grid-template-columns: 1fr 1fr; }
+            .steps-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+            .steps-grid::before { display: none; }
+            .rating-strip { flex-direction: column; align-items: flex-start; gap: 0.75rem; }
+            .rating-divider { display: none; }
+            .location-inner { flex-direction: column; align-items: flex-start; gap: 0.75rem; }
+        }
+        @media (max-width: 480px) {
+            .persona-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ============ NAVIGATION ============ -->
+<nav class="nav" aria-label="Main navigation">
+    <div class="container">
+        <div class="nav-inner">
+            <a href="index.html" class="nav-logo" aria-label="Littlefield Manor Riding School home">
+                <img src="assets/logo.svg" alt="Littlefield Manor crest" width="40" height="40">
+                <span class="nav-logo-text">
+                    <span class="nav-logo-name">Littlefield Manor</span>
+                    <span class="nav-logo-sub">Riding School</span>
+                </span>
+            </a>
+            <ul class="nav-links" role="list">
+                <li><a href="lessons.html">Lessons</a></li>
+                <li><a href="pony-days.html">Pony Days</a></li>
+                <li><a href="about.html">About Linda</a></li>
+                <li><a href="gallery.html">Gallery</a></li>
+                <li><a href="prices.html">Prices</a></li>
+            </ul>
+            <a href="contact.html" class="nav-cta">Book a Lesson</a>
+            <button class="nav-toggle" aria-label="Open menu" aria-expanded="false">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </div>
+</nav>
+<div class="mobile-menu" role="dialog" aria-label="Navigation menu">
+    <a href="lessons.html">Lessons</a>
+    <a href="pony-days.html">Pony Days &amp; Parties</a>
+    <a href="about.html">About Linda</a>
+    <a href="gallery.html">Gallery</a>
+    <a href="prices.html">Prices</a>
+    <a href="contact.html" style="color:var(--green)">Book a Lesson</a>
+</div>
+
+<!-- ============ HERO ============ -->
+<section class="hero" aria-label="Hero">
+    <img class="hero-bg-img" src="assets/gallery/1.jpg" alt="Horse and rider at Littlefield Manor arena, Guildford" loading="eager" fetchpriority="high">
+    <div class="hero-overlay"></div>
+
+    <div class="hero-eyebrow-wrap">
+        <span class="hero-line"></span>
+        Worplesdon · Guildford · Surrey
+        <span class="hero-line"></span>
+    </div>
+
+    <div class="hero-title-wrap">
+        <h1 class="hero-title">
+            <span class="hero-title-top">Littlefield Manor</span>
+            <span class="hero-title-bottom">Riding School</span>
+        </h1>
+    </div>
+
+    <div class="hero-bottom-wrap">
+        <p class="hero-desc">A small, independent riding school in the Surrey countryside. BHS-trained instruction for all ages and abilities — from first steps to cross-country.</p>
+        <a href="contact.html" class="hero-cta">
+            Book a Lesson
+            <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            <span class="pulse-ring"></span>
+        </a>
+    </div>
+</section>
+
+<!-- ============ STATS STRIP ============ -->
+<div class="stats-strip">
+    <div class="container">
+        <div class="stats-inner">
+            <div class="stat-item">
+                <span class="stat-number">20+</span>
+                <span class="stat-label">Years Teaching</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">3</span>
+                <span class="stat-label">Lesson Formats</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">★★★★★</span>
+                <span class="stat-label">Google Reviews</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">All</span>
+                <span class="stat-label">Abilities Welcome</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ============ WHY LITTLEFIELD MANOR ============ -->
+<section style="background:var(--ivory-dark);">
+    <div class="container">
+        <div class="section-header center reveal" style="max-width:640px; margin-left:auto; margin-right:auto;">
+            <span class="eyebrow">Why Ride With Us</span>
+            <h2>A riding school that actually <em>knows your name</em></h2>
+            <p>Linda runs a small, personal yard where every rider gets genuine attention — and that makes all the difference to how quickly you progress.</p>
+        </div>
+        <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:1.5rem;" class="stagger-children">
+            <div style="text-align:center; padding:1.75rem 1.25rem; background:var(--card); border:1px solid var(--divider); border-radius:var(--radius-lg);">
+                <div style="width:52px; height:52px; background:var(--green-light); border-radius:14px; display:flex; align-items:center; justify-content:center; margin:0 auto 1.25rem;">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                </div>
+                <h4 style="margin-bottom:0.5rem; font-size:1rem;">Same instructor, every time</h4>
+                <p style="font-size:0.85rem; color:var(--muted); margin:0;">Linda teaches every lesson herself — building real trust and consistent progress.</p>
+            </div>
+            <div style="text-align:center; padding:1.75rem 1.25rem; background:var(--card); border:1px solid var(--divider); border-radius:var(--radius-lg);">
+                <div style="width:52px; height:52px; background:var(--green-light); border-radius:14px; display:flex; align-items:center; justify-content:center; margin:0 auto 1.25rem;">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                </div>
+                <h4 style="margin-bottom:0.5rem; font-size:1rem;">Nervous riders welcome</h4>
+                <p style="font-size:0.85rem; color:var(--muted); margin:0;">No judgement, no rushing. Linda's speciality is helping anxious riders find their confidence.</p>
+            </div>
+            <div style="text-align:center; padding:1.75rem 1.25rem; background:var(--card); border:1px solid var(--divider); border-radius:var(--radius-lg);">
+                <div style="width:52px; height:52px; background:var(--green-light); border-radius:14px; display:flex; align-items:center; justify-content:center; margin:0 auto 1.25rem;">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                </div>
+                <h4 style="margin-bottom:0.5rem; font-size:1rem;">All-weather arena</h4>
+                <p style="font-size:0.85rem; color:var(--muted); margin:0;">The fully enclosed 25×60m arena means lessons are rarely cancelled — rain or shine.</p>
+            </div>
+            <div style="text-align:center; padding:1.75rem 1.25rem; background:var(--card); border:1px solid var(--divider); border-radius:var(--radius-lg);">
+                <div style="width:52px; height:52px; background:var(--green-light); border-radius:14px; display:flex; align-items:center; justify-content:center; margin:0 auto 1.25rem;">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+                </div>
+                <h4 style="margin-bottom:0.5rem; font-size:1rem;">Everything provided</h4>
+                <p style="font-size:0.85rem; color:var(--muted); margin:0;">Helmet, body protector, and a well-matched horse — all included. Just turn up.</p>
+            </div>
+        </div>
+        <div style="text-align:center; margin-top:2.5rem;" class="reveal">
+            <a href="about.html" class="btn btn-secondary">Meet Linda</a>
+        </div>
+    </div>
+</section>
+
+
+<!-- ============ SERVICES ============ -->
+<section>
+    <div class="container">
+        <div class="section-header center reveal">
+            <span class="eyebrow">What We Offer</span>
+            <h2>Three ways to <em>ride with us</em></h2>
+            <p>From a relaxed group session to a full day caring for a pony — there's something here for everyone.</p>
+        </div>
+        <div class="grid-3 stagger-children">
+            <a href="lessons.html" class="card card--featured" style="text-decoration:none;">
+                <div class="card-img" style="overflow:hidden;">
+                    <img src="assets/gallery/8.jpg" alt="Group riding lesson at Littlefield Manor" style="width:100%;height:100%;object-fit:cover;" loading="lazy">
+                </div>
+                <div class="card-body">
+                    <span class="eyebrow" style="font-size:0.6rem;">From £45</span>
+                    <h3 style="margin-top:0.4rem;">Riding Lessons</h3>
+                    <p>Group, semi-private, and private lessons for all abilities. Classical flatwork, show jumping, and cross-country available. Every lesson taught personally by Linda — 45 minutes of focused instruction.</p>
+                    <span class="text-green" style="font-weight:600; font-size:0.88rem;">View all lessons →</span>
+                </div>
+            </a>
+            <a href="pony-days.html" class="card" style="text-decoration:none;">
+                <div class="card-img" style="overflow:hidden;">
+                    <img src="assets/gallery/2.jpg" alt="Child enjoying a pony day at Littlefield Manor" style="width:100%;height:100%;object-fit:cover;object-position:center top;" loading="lazy">
+                </div>
+                <div class="card-body">
+                    <span class="eyebrow" style="font-size:0.6rem;">£90 per child</span>
+                    <h3 style="margin-top:0.4rem;">Pony Days</h3>
+                    <p>A full day of pony ownership for children — grooming, feeding, groundwork, and riding. One of the most popular experiences at Littlefield Manor. Children leave absolutely glowing.</p>
+                    <span class="text-green" style="font-weight:600; font-size:0.88rem;">Find out more →</span>
+                </div>
+            </a>
+            <a href="pony-days.html#parties" class="card" style="text-decoration:none;">
+                <div class="card-img" style="overflow:hidden;">
+                    <img src="assets/gallery/6.jpg" alt="Riding party group at Littlefield Manor" style="width:100%;height:100%;object-fit:cover;" loading="lazy">
+                </div>
+                <div class="card-body">
+                    <span class="eyebrow" style="font-size:0.6rem;">£60 per head · min. 4</span>
+                    <h3 style="margin-top:0.4rem;">Riding Parties</h3>
+                    <p>Make a birthday or group event unforgettable. Private sessions for groups of 4 or more, suitable from age 6. A guaranteed talking point and a brilliant alternative to a standard party.</p>
+                    <span class="text-green" style="font-weight:600; font-size:0.88rem;">Plan a party →</span>
+                </div>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- ============ ABOUT LINDA ============ -->
+<section style="background:var(--green-dark); padding:4.5rem 0; position:relative; overflow:hidden;">
+    <div style="position:absolute; top:0; left:0; right:0; height:70px; background:var(--ivory); clip-path:ellipse(55% 100% at 50% 0);"></div>
+    <div style="position:absolute; bottom:0; left:0; right:0; height:70px; background:var(--ivory); clip-path:ellipse(55% 100% at 50% 100%);"></div>
+    <div class="container" style="position:relative; z-index:1;">
+        <div class="about-split">
+            <div class="reveal-left">
+                <div class="about-img-wrap">
+                    <img src="assets/linda.jpg" alt="Linda, BHS-trained proprietor and instructor at Littlefield Manor Riding School" style="width:100%; height:480px; object-fit:cover; object-position:center top; border-radius:20px; display:block;">
+                    <div class="about-badge">
+                        <span class="about-badge-number">BHS</span>
+                        <span class="about-badge-label">Qualified</span>
+                    </div>
+                </div>
+            </div>
+            <div class="reveal-right">
+                <span class="eyebrow" style="color:#a8d5b5;">Meet Your Instructor</span>
+                <h2 style="color:white; margin:0.75rem 0 1.25rem;">The instructor who <em style="color:#a8d5b5;">stays with you</em></h2>
+                <p style="color:rgba(255,255,255,0.85); margin-bottom:1.25rem;">I'm Linda. I've been running Littlefield Manor for over two decades, and I still teach every single lesson myself. I made that choice early on — and I've never changed it. When you come to this yard, you build a relationship with me, with the horses, and with the place. That continuity is what turns beginners into confident riders.</p>
+                <p style="color:rgba(255,255,255,0.75); margin-bottom:1.75rem;">My speciality is nervous riders and first-timers. If you've been putting riding off because you're worried you won't be good enough, or you're scared of the horses — please come and say hello first. There's never any pressure to get on until you're ready.</p>
+                <ul class="credential-list" style="margin-bottom:2rem;">
+                    <li><span class="credential-dot" style="background:#a8d5b5;"></span><span style="color:rgba(255,255,255,0.85);">BHS (British Horse Society) Qualified Instructor</span></li>
+                    <li><span class="credential-dot" style="background:#a8d5b5;"></span><span style="color:rgba(255,255,255,0.85);">TTT (Train the Trainer) Certified</span></li>
+                    <li><span class="credential-dot" style="background:#a8d5b5;"></span><span style="color:rgba(255,255,255,0.85);">Approved by Guildford Borough Council · Licence AWRL049</span></li>
+                    <li><span class="credential-dot" style="background:#a8d5b5;"></span><span style="color:rgba(255,255,255,0.85);">Fully Licenced &amp; Insured — all riders covered</span></li>
+                </ul>
+                <div class="btn-group">
+                    <a href="about.html" class="btn btn-ghost">More About Linda</a>
+                    <a href="contact.html" class="btn" style="background:rgba(255,255,255,0.12); color:white; border:1px solid rgba(255,255,255,0.25);">Book a Lesson</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============ TESTIMONIALS ============ -->
+<section>
+    <div class="container">
+        <div class="section-header center reveal">
+            <span class="eyebrow">What Riders Say</span>
+            <h2>Words from <em>real riders</em></h2>
+        </div>
+        <div class="rating-strip reveal">
+            <div>
+                <div class="rating-stars-big">★★★★★</div>
+            </div>
+            <div class="rating-divider"></div>
+            <div class="rating-text">
+                <strong>5.0 out of 5 — rated by riders across Guildford &amp; Surrey</strong>
+                <span>"Patient, knowledgeable, and genuinely passionate about helping people ride."</span>
+            </div>
+            <div style="margin-left:auto;">
+                <a href="contact.html" class="btn btn-secondary" style="white-space:nowrap;">Book Your First Lesson</a>
+            </div>
+        </div>
+        <div class="grid-3 stagger-children">
+            <div class="testimonial-card">
+                <div class="testimonial-stars">★★★★★</div>
+                <p class="testimonial-quote">"Fantastic horses and a brilliant teacher. Linda has taught me everything I know and is amazing for any abilities."</p>
+                <p class="testimonial-author">Happy Student — Guildford</p>
+            </div>
+            <div class="testimonial-card">
+                <div class="testimonial-stars">★★★★★</div>
+                <p class="testimonial-quote">"Linda was very patient, encouraging and kind. She makes sure you are ok and comfortable when riding and when around the horses. Couldn't recommend highly enough."</p>
+                <p class="testimonial-author">Adult Beginner — Surrey</p>
+            </div>
+            <div class="testimonial-card">
+                <div class="testimonial-stars">★★★★★</div>
+                <p class="testimonial-quote">"Always a warm and knowledgeable welcome. The horses were beautifully well-groomed and the premises immaculate. A genuinely special place to learn."</p>
+                <p class="testimonial-author">Parent — Worplesdon</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- ============ PRICING PREVIEW ============ -->
+<section>
+    <div class="container">
+        <div class="grid-2-1" style="align-items:center; gap:3rem;">
+            <div>
+                <div class="section-header reveal">
+                    <span class="eyebrow">Pricing</span>
+                    <h2>Simple, <em>honest</em> prices</h2>
+                    <p>No hidden costs, no joining fees. All safety equipment included. Every lesson taught by Linda.</p>
+                </div>
+                <div class="price-table reveal">
+                    <div class="price-row">
+                        <div>
+                            <span class="price-name">Group Lesson</span>
+                            <p style="font-size:0.75rem;color:var(--muted);margin:0.15rem 0 0;">Ride with others at your level</p>
+                        </div>
+                        <span class="price-duration">45 mins</span>
+                        <span class="price-amount">£45</span>
+                    </div>
+                    <div class="price-row">
+                        <div>
+                            <span class="price-name">Private Lesson</span>
+                            <p style="font-size:0.75rem;color:var(--muted);margin:0.15rem 0 0;">Linda's complete focus, one-to-one</p>
+                        </div>
+                        <span class="price-duration">45 mins</span>
+                        <span class="price-amount">£55</span>
+                    </div>
+                    <div class="price-row">
+                        <div>
+                            <span class="price-name">Own a Pony Day</span>
+                            <p style="font-size:0.75rem;color:var(--muted);margin:0.15rem 0 0;">Full day care, grooming &amp; riding</p>
+                        </div>
+                        <span class="price-duration">Full day</span>
+                        <span class="price-amount">£90</span>
+                    </div>
+                </div>
+                <div style="margin-top:1.25rem;">
+                    <a href="prices.html" class="btn btn-secondary">See all prices &amp; FAQs</a>
+                </div>
+            </div>
+            <div class="reveal-right" style="text-align:center; padding:2rem;">
+                <span class="eyebrow" style="display:block; margin-bottom:0.75rem;">Everything included</span>
+                <p style="color:var(--muted); margin-bottom:1.5rem;">Helmet, body protector, and a well-matched horse are all provided. Just turn up and ride.</p>
+                <a href="contact.html" class="btn btn-primary">Book a Lesson</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============ GALLERY PREVIEW ============ -->
+<section style="background:var(--ivory-dark);">
+    <div class="container">
+        <div class="section-header center reveal">
+            <span class="eyebrow">The School</span>
+            <h2>A glimpse of <em>Littlefield Manor</em></h2>
+            <p>The horses, the arena, the yard — and the moments that keep riders coming back.</p>
+        </div>
+        <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:0.75rem;" class="stagger-children">
+            <img src="assets/gallery/1.jpg" alt="Horse and rider in the all-weather arena at Littlefield Manor" loading="lazy" style="width:100%; height:280px; object-fit:cover; object-position:center; border-radius:var(--radius); display:block;">
+            <img src="assets/gallery/4.jpg" alt="Group riding lesson at Littlefield Manor, Guildford" loading="lazy" style="width:100%; height:280px; object-fit:cover; object-position:center; border-radius:var(--radius); display:block;">
+            <img src="assets/gallery/9.jpg" alt="Riders enjoying a lesson at Littlefield Manor Riding School" loading="lazy" style="width:100%; height:280px; object-fit:cover; object-position:center; border-radius:var(--radius); display:block;">
+        </div>
+        <div style="text-align:center; margin-top:2rem;" class="reveal">
+            <a href="gallery.html" class="btn btn-secondary">View All Photos</a>
+        </div>
+    </div>
+</section>
+
+<!-- ============ LOCATION BAR ============ -->
+<div class="location-bar">
+    <div class="container">
+        <div class="location-inner">
+            <div class="location-detail">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                Aldershot Road, Worplesdon, Guildford GU3 3HJ
+            </div>
+            <div class="location-detail">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.57 3.49 2 2 0 0 1 3.57 1.27h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 9a16 16 0 0 0 6 6l1.09-1.09a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                07973 302316
+            </div>
+            <div class="location-detail">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                Tues–Sun, 9am–6pm
+            </div>
+            <a href="https://maps.google.com/?q=Aldershot+Road+Guildford+GU3+3HJ" target="_blank" rel="noopener" class="btn btn-secondary" style="font-size:0.78rem; padding:0.5rem 1.1rem;">Get Directions</a>
+        </div>
+    </div>
+</div>
+
+<!-- ============ FINAL CTA ============ -->
+<section style="background:var(--green); padding:4rem 0; text-align:center;">
+    <div class="container-narrow">
+        <div class="reveal">
+            <span class="eyebrow" style="color:#a8d5b5;">Ready to start?</span>
+            <h2 style="color:white; margin:0.75rem 0 1rem;">Book your first lesson today</h2>
+            <p style="color:rgba(255,255,255,0.8); margin-bottom:2rem;">Whether you're brand new to horses or returning after a break — Linda will take care of everything. All you need to bring is yourself.</p>
+            <div class="btn-group" style="justify-content:center;">
+                <a href="contact.html" class="btn btn-gold">Book a Lesson</a>
+                <a href="tel:07973302316" class="btn btn-ghost">Call 07973 302316</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer class="footer" role="contentinfo">
+    <div class="container">
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <img src="assets/logo.svg" alt="Littlefield Manor crest" width="44" height="44">
+                <p style="font-family:'Instrument Serif',serif; font-size:1.15rem; color:white; margin-bottom:0.75rem;">Littlefield Manor<br>Riding School</p>
+                <p>A small, independent riding school in Worplesdon, Guildford. BHS-trained instruction in a relaxed, welcoming yard.</p>
+            </div>
+            <div class="footer-col">
+                <h5>Lessons</h5>
+                <ul>
+                    <li><a href="lessons.html">All Lessons</a></li>
+                    <li><a href="lessons.html">Group Lessons</a></li>
+                    <li><a href="lessons.html">Private Lessons</a></li>
+                    <li><a href="lessons.html">Show Jumping</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h5>School</h5>
+                <ul>
+                    <li><a href="about.html">About Linda</a></li>
+                    <li><a href="pony-days.html">Pony Days</a></li>
+                    <li><a href="pony-days.html#parties">Riding Parties</a></li>
+                    <li><a href="gallery.html">Gallery</a></li>
+                    <li><a href="prices.html">Prices</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h5>Contact</h5>
+                <ul>
+                    <li><a href="tel:07973302316">07973 302316</a></li>
+                    <li><a href="https://wa.me/447973302316" target="_blank" rel="noopener">WhatsApp Linda</a></li>
+                    <li><a href="contact.html">Enquiry Form</a></li>
+                    <li><a href="https://maps.google.com/?q=Aldershot+Road+Guildford+GU3+3HJ" target="_blank" rel="noopener">Get Directions</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Littlefield Manor Riding School · Aldershot Road, Guildford GU3 3HJ · Licence No. AWRL049</p>
+            <a href="tel:07973302316" class="footer-phone">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.57 3.49 2 2 0 0 1 3.57 1.27h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 9a16 16 0 0 0 6 6l1.09-1.09a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                07973 302316
+            </a>
+        </div>
+    </div>
+</footer>
+
+<a href="https://wa.me/447973302316" class="whatsapp-float" target="_blank" rel="noopener" aria-label="Chat with Linda on WhatsApp">
+    <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
+</a>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" crossorigin="anonymous"></script>
+<script src="js/main.js"></script>
+</body>
+</html>

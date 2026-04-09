@@ -1,0 +1,10 @@
+.env
+*.env
+node_modules/
+.tmp/
+.DS_Store
+Thumbs.db
+*.log
+research/
+competitive-analysis.html
+client-deck/
