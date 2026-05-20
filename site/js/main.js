@@ -74,7 +74,7 @@ gsap.utils.toArray('.reveal-scale').forEach(el => {
         opacity: 1,
         scale: 1,
         duration: 0.7,
-        ease: 'back.out(1.4)',
+        ease: 'power2.out',
         scrollTrigger: { trigger: el, start: 'top 88%', once: true }
     });
 });
@@ -86,7 +86,7 @@ gsap.utils.toArray('.stagger-children').forEach(parent => {
         y: 24,
         duration: 0.65,
         ease: 'power2.out',
-        stagger: 0.12,
+        stagger: 0.06,
         scrollTrigger: { trigger: parent, start: 'top 85%', once: true }
     });
 });
@@ -155,25 +155,27 @@ if (priceRows.length) {
 }
 
 /* ---------- GALLERY 3D TILT ---------- */
-document.querySelectorAll('.gallery-full .gallery-item').forEach(item => {
-    const img = item.querySelector('img');
-    if (!img) return;
+if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+    document.querySelectorAll('.gallery-full .gallery-item').forEach(item => {
+        const img = item.querySelector('img');
+        if (!img) return;
 
-    item.addEventListener('mousemove', e => {
-        const r = item.getBoundingClientRect();
-        const x = (e.clientX - r.left) / r.width  - 0.5;
-        const y = (e.clientY - r.top)  / r.height - 0.5;
-        item.style.transform = `perspective(700px) rotateY(${x * 8}deg) rotateX(${-y * 8}deg) scale(1.02)`;
-        item.style.zIndex = '2';
-        item.style.transition = 'transform 0.1s ease';
-    });
+        item.addEventListener('mousemove', e => {
+            const r = item.getBoundingClientRect();
+            const x = (e.clientX - r.left) / r.width  - 0.5;
+            const y = (e.clientY - r.top)  / r.height - 0.5;
+            item.style.transform = `perspective(700px) rotateY(${x * 8}deg) rotateX(${-y * 8}deg) scale(1.02)`;
+            item.style.zIndex = '2';
+            item.style.transition = 'transform 0.1s cubic-bezier(0.25, 0, 0, 1)';
+        });
 
-    item.addEventListener('mouseleave', () => {
-        item.style.transform = '';
-        item.style.zIndex = '';
-        item.style.transition = 'transform 0.4s ease';
+        item.addEventListener('mouseleave', () => {
+            item.style.transform = '';
+            item.style.zIndex = '';
+            item.style.transition = 'transform 0.4s cubic-bezier(0.25, 0, 0, 1)';
+        });
     });
-});
+}
 
 /* ---------- GALLERY LIGHTBOX (with prev/next) ---------- */
 const galleryItems = document.querySelectorAll('.gallery-full .gallery-item img');
@@ -221,6 +223,7 @@ if (galleryItems.length) {
     const openLightbox = index => {
         lightbox.style.display = 'flex';
         document.body.style.overflow = 'hidden';
+        gsap.fromTo(lightbox, { opacity: 0 }, { opacity: 1, duration: 0.2, ease: 'power1.out' });
         showImage(index);
     };
 
