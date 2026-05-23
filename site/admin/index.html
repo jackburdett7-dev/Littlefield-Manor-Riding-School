@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prices — Littlefield Manor Admin</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garant:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --green:      #2a5c3d;
+            --green-dark: #1e4530;
+            --green-light:#e8f0eb;
+            --gold:       #b8860b;
+            --ivory:      #f5f0e8;
+            --ivory-dark: #ece5d8;
+            --divider:    #ddd5c6;
+            --text:       #1c1c1c;
+            --muted:      #8a7b6a;
+            --radius:     12px;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--ivory);
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ── Login ── */
+        #login-screen {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .login-card {
+            background: white;
+            border: 1px solid var(--divider);
+            border-radius: 20px;
+            padding: 3rem 2.5rem;
+            width: 100%;
+            max-width: 420px;
+            box-shadow: 0 8px 40px rgba(42,92,61,0.08);
+        }
+
+        .login-logo {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .login-logo-name {
+            font-family: 'Cormorant Garant', serif;
+            font-size: 1.5rem;
+            color: var(--green-dark);
+            display: block;
+            margin-top: 0.5rem;
+        }
+
+        .login-logo-sub {
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.18em;
+            color: var(--muted);
+        }
+
+        .crest {
+            width: 52px;
+            height: 52px;
+            background: var(--green);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+        }
+
+        .crest svg { stroke: white; }
+
+        h1.login-title {
+            font-family: 'Cormorant Garant', serif;
+            font-size: 1.6rem;
+            font-weight: 600;
+            margin-bottom: 0.35rem;
+            text-align: center;
+        }
+
+        .login-hint {
+            font-size: 0.82rem;
+            color: var(--muted);
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        label {
+            display: block;
+            font-size: 0.78rem;
+            font-weight: 500;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 0.4rem;
+        }
+
+        input[type="email"],
+        input[type="password"],
+        input[type="number"],
+        input[type="text"] {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1.5px solid var(--divider);
+            border-radius: var(--radius);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.95rem;
+            color: var(--text);
+            background: white;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        input:focus { border-color: var(--green); }
+
+        .field { margin-bottom: 1.25rem; }
+
+        .btn-primary {
+            display: block;
+            width: 100%;
+            padding: 0.85rem 1.5rem;
+            background: var(--green);
+            color: white;
+            border: none;
+            border-radius: var(--radius);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            letter-spacing: 0.04em;
+            transition: background 0.2s;
+            margin-top: 0.5rem;
+        }
+
+        .btn-primary:hover { background: var(--green-dark); }
+        .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; }
+
+        .error-msg {
+            background: #fef2f2;
+            border: 1px solid #fca5a5;
+            color: #b91c1c;
+            border-radius: var(--radius);
+            padding: 0.75rem 1rem;
+            font-size: 0.85rem;
+            margin-bottom: 1.25rem;
+            display: none;
+        }
+
+        /* ── Dashboard ── */
+        #dashboard-screen { display: none; flex-direction: column; min-height: 100vh; }
+
+        .topbar {
+            background: var(--green-dark);
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .topbar-brand {
+            font-family: 'Cormorant Garant', serif;
+            font-size: 1.15rem;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .topbar-brand span { color: rgba(255,255,255,0.55); font-size: 0.8rem; font-family: 'DM Sans', sans-serif; }
+
+        .btn-logout {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: rgba(255,255,255,0.85);
+            padding: 0.45rem 1.1rem;
+            border-radius: 8px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .btn-logout:hover { background: rgba(255,255,255,0.18); }
+
+        .dashboard-body {
+            flex: 1;
+            padding: 2.5rem 2rem;
+            max-width: 740px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .page-heading {
+            font-family: 'Cormorant Garant', serif;
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 0.35rem;
+        }
+
+        .page-sub {
+            font-size: 0.88rem;
+            color: var(--muted);
+            margin-bottom: 2rem;
+        }
+
+        /* ── Price table ── */
+        .price-table {
+            background: white;
+            border: 1px solid var(--divider);
+            border-radius: 16px;
+            overflow: hidden;
+        }
+
+        .price-row {
+            display: grid;
+            grid-template-columns: 1fr 90px auto;
+            align-items: center;
+            gap: 1rem;
+            padding: 1.25rem 1.75rem;
+            border-bottom: 1px solid var(--divider);
+            transition: background 0.15s;
+        }
+
+        .price-row:last-child { border-bottom: none; }
+        .price-row:hover { background: var(--ivory); }
+
+        .price-row.editing { background: var(--green-light); }
+
+        .row-label {
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        .row-desc {
+            font-size: 0.78rem;
+            color: var(--muted);
+            margin-top: 0.15rem;
+        }
+
+        .row-price {
+            font-family: 'Cormorant Garant', serif;
+            font-size: 1.6rem;
+            color: var(--green);
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .btn-edit {
+            background: var(--green-light);
+            border: 1px solid #b8d4bf;
+            color: var(--green-dark);
+            padding: 0.45rem 1rem;
+            border-radius: 8px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.78rem;
+            font-weight: 600;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: background 0.15s;
+        }
+
+        .btn-edit:hover { background: #c8dece; }
+
+        /* ── Inline edit form ── */
+        .edit-form {
+            display: none;
+            grid-column: 1 / -1;
+            background: white;
+            border: 1.5px solid var(--green);
+            border-radius: var(--radius);
+            padding: 1.25rem 1.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .edit-form.open { display: block; }
+
+        .edit-row { display: flex; gap: 1rem; align-items: flex-end; flex-wrap: wrap; }
+
+        .edit-field { flex: 1; min-width: 120px; }
+
+        .edit-field label { font-size: 0.72rem; }
+
+        .edit-actions { display: flex; gap: 0.6rem; padding-bottom: 0.1rem; }
+
+        .btn-save {
+            background: var(--green);
+            color: white;
+            border: none;
+            padding: 0.6rem 1.25rem;
+            border-radius: 8px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.82rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.15s;
+        }
+
+        .btn-save:hover { background: var(--green-dark); }
+        .btn-save:disabled { opacity: 0.6; cursor: not-allowed; }
+
+        .btn-cancel {
+            background: none;
+            border: 1px solid var(--divider);
+            color: var(--muted);
+            padding: 0.6rem 1rem;
+            border-radius: 8px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.82rem;
+            cursor: pointer;
+        }
+
+        .btn-cancel:hover { border-color: var(--muted); color: var(--text); }
+
+        .save-status {
+            font-size: 0.8rem;
+            margin-top: 0.6rem;
+            display: none;
+        }
+
+        .save-status.ok   { color: #16a34a; display: block; }
+        .save-status.fail { color: #b91c1c; display: block; }
+
+        .last-updated {
+            font-size: 0.72rem;
+            color: var(--muted);
+            margin-top: 1.5rem;
+            text-align: right;
+        }
+
+        /* ── Loading state ── */
+        .loading-row {
+            padding: 2rem 1.75rem;
+            text-align: center;
+            color: var(--muted);
+            font-size: 0.88rem;
+        }
+
+        @media (max-width: 520px) {
+            .price-row { grid-template-columns: 1fr auto; }
+            .row-price { grid-column: 1; grid-row: 2; }
+            .btn-edit  { grid-column: 2; grid-row: 1 / 3; align-self: center; }
+            .topbar    { padding: 1rem; }
+            .dashboard-body { padding: 1.5rem 1rem; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ============ LOGIN ============ -->
+<div id="login-screen">
+    <div class="login-card">
+        <div class="login-logo">
+            <div class="crest">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                    <polyline points="9 22 9 12 15 12 15 22"/>
+                </svg>
+            </div>
+            <span class="login-logo-name">Littlefield Manor</span>
+            <span class="login-logo-sub">Riding School · Admin</span>
+        </div>
+
+        <h1 class="login-title">Price Manager</h1>
+        <p class="login-hint">Sign in to update your lesson prices</p>
+
+        <div class="error-msg" id="login-error"></div>
+
+        <form id="login-form">
+            <div class="field">
+                <label for="email">Email</label>
+                <input type="email" id="email" required autocomplete="username">
+            </div>
+            <div class="field">
+                <label for="password">Password</label>
+                <input type="password" id="password" required autocomplete="current-password">
+            </div>
+            <button type="submit" class="btn-primary" id="login-btn">Sign in</button>
+        </form>
+    </div>
+</div>
+
+<!-- ============ DASHBOARD ============ -->
+<div id="dashboard-screen">
+    <div class="topbar">
+        <div class="topbar-brand">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            Littlefield Manor <span>/ Prices</span>
+        </div>
+        <button class="btn-logout" id="logout-btn">Sign out</button>
+    </div>
+
+    <div class="dashboard-body">
+        <h1 class="page-heading">Your Prices</h1>
+        <p class="page-sub">Click <strong>Edit</strong> on any row to update the price. Changes go live on your website instantly.</p>
+
+        <div class="price-table" id="price-table">
+            <div class="loading-row">Loading prices&hellip;</div>
+        </div>
+
+        <p class="last-updated" id="last-updated"></p>
+    </div>
+</div>
+
+<script>
+var SUPABASE_URL      = 'https://wajvgngjfwbdnitggakn.supabase.co';
+var SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndhanZnbmdqZndiZG5pdGdnYWtuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYwODM2NzksImV4cCI6MjA5MTY1OTY3OX0.0-wOI9VAy6NFxnrBJEpunqPbmq2mP2D3ZEec_V5m8gk';
+
+var sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+// ── Auth ──────────────────────────────────────────────────
+var loginForm  = document.getElementById('login-form');
+var loginBtn   = document.getElementById('login-btn');
+var loginError = document.getElementById('login-error');
+var logoutBtn  = document.getElementById('logout-btn');
+
+loginForm.addEventListener('submit', async function(e) {
+    e.preventDefault();
+    loginBtn.disabled = true;
+    loginBtn.textContent = 'Signing in…';
+    loginError.style.display = 'none';
+
+    var email    = document.getElementById('email').value;
+    var password = document.getElementById('password').value;
+
+    var { error } = await sb.auth.signInWithPassword({ email, password });
+    if (error) {
+        loginError.textContent = 'Incorrect email or password. Please try again.';
+        loginError.style.display = 'block';
+        loginBtn.disabled = false;
+        loginBtn.textContent = 'Sign in';
+    }
+    // session change handled by onAuthStateChange
+});
+
+logoutBtn.addEventListener('click', function() { sb.auth.signOut(); });
+
+sb.auth.onAuthStateChange(function(event, session) {
+    if (session) {
+        document.getElementById('login-screen').style.display    = 'none';
+        document.getElementById('dashboard-screen').style.display = 'flex';
+        loadPrices();
+    } else {
+        document.getElementById('login-screen').style.display    = 'flex';
+        document.getElementById('dashboard-screen').style.display = 'none';
+        loginBtn.disabled    = false;
+        loginBtn.textContent = 'Sign in';
+    }
+});
+
+// ── Price data ────────────────────────────────────────────
+var priceData = [];
+
+async function loadPrices() {
+    var { data, error } = await sb.from('littlefield_prices').select('*').order('id');
+    if (error || !data) {
+        document.getElementById('price-table').innerHTML =
+            '<div class="loading-row">Could not load prices. Please refresh the page.</div>';
+        return;
+    }
+    priceData = data;
+    renderTable(data);
+}
+
+function renderTable(rows) {
+    var table = document.getElementById('price-table');
+    if (!rows.length) {
+        table.innerHTML = '<div class="loading-row">No prices found.</div>';
+        return;
+    }
+
+    var latest = rows.reduce(function(a, b) {
+        return new Date(a.updated_at) > new Date(b.updated_at) ? a : b;
+    });
+    document.getElementById('last-updated').textContent =
+        'Last updated: ' + new Date(latest.updated_at).toLocaleString('en-GB', {
+            day: 'numeric', month: 'long', year: 'numeric',
+            hour: '2-digit', minute: '2-digit'
+        });
+
+    table.innerHTML = rows.map(function(row) {
+        return renderRow(row);
+    }).join('');
+
+    // Attach edit handlers
+    rows.forEach(function(row) {
+        document.getElementById('edit-btn-' + row.id).addEventListener('click', function() {
+            openEdit(row.id);
+        });
+        document.getElementById('cancel-btn-' + row.id).addEventListener('click', function() {
+            closeEdit(row.id);
+        });
+        document.getElementById('save-btn-' + row.id).addEventListener('click', function() {
+            saveRow(row.id);
+        });
+    });
+}
+
+function renderRow(row) {
+    return '<div class="price-row" id="row-' + row.id + '">' +
+        '<div>' +
+            '<div class="row-label">' + escHtml(row.label) + '</div>' +
+            '<div class="row-desc" id="desc-' + row.id + '">' + escHtml(row.description || '') + '</div>' +
+        '</div>' +
+        '<div class="row-price" id="price-display-' + row.id + '">£' + row.price + '</div>' +
+        '<button class="btn-edit" id="edit-btn-' + row.id + '">Edit</button>' +
+        '<div class="edit-form" id="edit-form-' + row.id + '">' +
+            '<div class="edit-row">' +
+                '<div class="edit-field">' +
+                    '<label for="price-input-' + row.id + '">Price (£)</label>' +
+                    '<input type="number" id="price-input-' + row.id + '" value="' + row.price + '" min="1" max="9999" step="1">' +
+                '</div>' +
+                '<div class="edit-field" style="flex:2;">' +
+                    '<label for="desc-input-' + row.id + '">Description</label>' +
+                    '<input type="text" id="desc-input-' + row.id + '" value="' + escAttr(row.description || '') + '" maxlength="80">' +
+                '</div>' +
+                '<div class="edit-actions">' +
+                    '<button class="btn-save" id="save-btn-' + row.id + '">Save</button>' +
+                    '<button class="btn-cancel" id="cancel-btn-' + row.id + '">Cancel</button>' +
+                '</div>' +
+            '</div>' +
+            '<div class="save-status" id="status-' + row.id + '"></div>' +
+        '</div>' +
+    '</div>';
+}
+
+function openEdit(id) {
+    // Close any other open edit forms first
+    priceData.forEach(function(r) {
+        if (r.id !== id) closeEdit(r.id);
+    });
+    document.getElementById('row-' + id).classList.add('editing');
+    document.getElementById('edit-form-' + id).classList.add('open');
+    document.getElementById('price-input-' + id).focus();
+}
+
+function closeEdit(id) {
+    document.getElementById('row-' + id).classList.remove('editing');
+    document.getElementById('edit-form-' + id).classList.remove('open');
+    document.getElementById('status-' + id).className = 'save-status';
+}
+
+async function saveRow(id) {
+    var priceInput = document.getElementById('price-input-' + id);
+    var descInput  = document.getElementById('desc-input-'  + id);
+    var saveBtn    = document.getElementById('save-btn-'    + id);
+    var statusEl   = document.getElementById('status-'      + id);
+
+    var newPrice = parseInt(priceInput.value, 10);
+    var newDesc  = descInput.value.trim();
+
+    if (!newPrice || newPrice < 1) {
+        statusEl.textContent = 'Please enter a valid price.';
+        statusEl.className   = 'save-status fail';
+        return;
+    }
+
+    saveBtn.disabled    = true;
+    saveBtn.textContent = 'Saving…';
+    statusEl.className  = 'save-status';
+
+    var { error } = await sb
+        .from('littlefield_prices')
+        .update({ price: newPrice, description: newDesc, updated_at: new Date().toISOString() })
+        .eq('id', id);
+
+    if (error) {
+        statusEl.textContent = 'Save failed — please try again.';
+        statusEl.className   = 'save-status fail';
+        saveBtn.disabled     = false;
+        saveBtn.textContent  = 'Save';
+        return;
+    }
+
+    // Update local state and display
+    priceData = priceData.map(function(r) {
+        return r.id === id ? Object.assign({}, r, { price: newPrice, description: newDesc, updated_at: new Date().toISOString() }) : r;
+    });
+
+    document.getElementById('price-display-' + id).textContent = '£' + newPrice;
+    document.getElementById('desc-' + id).textContent = newDesc;
+
+    statusEl.textContent = 'Saved!';
+    statusEl.className   = 'save-status ok';
+    saveBtn.disabled     = false;
+    saveBtn.textContent  = 'Save';
+
+    setTimeout(function() { closeEdit(id); }, 900);
+
+    // Refresh last-updated
+    var latest = priceData.reduce(function(a, b) {
+        return new Date(a.updated_at) > new Date(b.updated_at) ? a : b;
+    });
+    document.getElementById('last-updated').textContent =
+        'Last updated: ' + new Date(latest.updated_at).toLocaleString('en-GB', {
+            day: 'numeric', month: 'long', year: 'numeric',
+            hour: '2-digit', minute: '2-digit'
+        });
+}
+
+function escHtml(str) {
+    return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function escAttr(str) {
+    return str.replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+</script>
+</body>
+</html>

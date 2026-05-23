@@ -258,7 +258,7 @@
                     <img src="assets/gallery/8.jpg" alt="Group riding lesson at Littlefield Manor" style="width:100%;height:100%;object-fit:cover;" loading="lazy">
                 </div>
                 <div class="card-body">
-                    <span class="eyebrow" style="font-size:0.6rem;">From £45</span>
+                    <span class="eyebrow" style="font-size:0.6rem;" data-price-type="group" data-price-format="From £{price}">From £45</span>
                     <h3 style="margin-top:0.4rem;">Riding Lessons</h3>
                     <p>Group, semi-private, and private lessons for all abilities. Classical flatwork, show jumping, and cross-country available. Every lesson taught personally by Linda — 45 minutes of focused instruction.</p>
                     <span class="text-green" style="font-weight:600; font-size:0.88rem;">View all lessons →</span>
@@ -269,7 +269,7 @@
                     <img src="assets/gallery/2.jpg" alt="Child enjoying a pony day at Littlefield Manor" style="width:100%;height:100%;object-fit:cover;object-position:center top;" loading="lazy">
                 </div>
                 <div class="card-body">
-                    <span class="eyebrow" style="font-size:0.6rem;">£90 per child</span>
+                    <span class="eyebrow" style="font-size:0.6rem;" data-price-type="pony_day" data-price-format="£{price} per child">£90 per child</span>
                     <h3 style="margin-top:0.4rem;">Pony Days</h3>
                     <p>A full day of pony ownership for children — grooming, feeding, groundwork, and riding. One of the most popular experiences at Littlefield Manor. Children leave absolutely glowing.</p>
                     <span class="text-green" style="font-weight:600; font-size:0.88rem;">Find out more →</span>
@@ -280,7 +280,7 @@
                     <img src="assets/gallery/6.jpg" alt="Riding party group at Littlefield Manor" style="width:100%;height:100%;object-fit:cover;" loading="lazy">
                 </div>
                 <div class="card-body">
-                    <span class="eyebrow" style="font-size:0.6rem;">£60 per head · min. 4</span>
+                    <span class="eyebrow" style="font-size:0.6rem;" data-price-type="party" data-price-format="£{price} per head · min. 4">£60 per head · min. 4</span>
                     <h3 style="margin-top:0.4rem;">Riding Parties</h3>
                     <p>Make a birthday or group event unforgettable. Private sessions for groups of 4 or more, suitable from age 6. A guaranteed talking point and a brilliant alternative to a standard party.</p>
                     <span class="text-green" style="font-weight:600; font-size:0.88rem;">Plan a party →</span>
@@ -383,7 +383,7 @@
                             <p style="font-size:0.75rem;color:var(--muted);margin:0.15rem 0 0;">Ride with others at your level</p>
                         </div>
                         <span class="price-duration">45 mins</span>
-                        <span class="price-amount">£45</span>
+                        <span class="price-amount" data-price-type="group">£45</span>
                     </div>
                     <div class="price-row">
                         <div>
@@ -391,7 +391,7 @@
                             <p style="font-size:0.75rem;color:var(--muted);margin:0.15rem 0 0;">Linda's complete focus, one-to-one</p>
                         </div>
                         <span class="price-duration">45 mins</span>
-                        <span class="price-amount">£55</span>
+                        <span class="price-amount" data-price-type="private">£55</span>
                     </div>
                     <div class="price-row">
                         <div>
@@ -399,7 +399,7 @@
                             <p style="font-size:0.75rem;color:var(--muted);margin:0.15rem 0 0;">Full day care, grooming &amp; riding</p>
                         </div>
                         <span class="price-duration">Full day</span>
-                        <span class="price-amount">£90</span>
+                        <span class="price-amount" data-price-type="pony_day">£90</span>
                     </div>
                 </div>
                 <div style="margin-top:1.25rem;">
@@ -525,5 +525,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" crossorigin="anonymous"></script>
 <script src="js/main.js"></script>
+<script src="js/prices.js"></script>
 </body>
 </html>
