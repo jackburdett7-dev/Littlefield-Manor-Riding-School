@@ -500,6 +500,7 @@ section.tight { padding: 3rem 0; }
 .hero {
     position: relative;
     height: 100vh;
+    height: 100svh; /* iOS: avoid address-bar jump / cut-off */
     min-height: 640px;
     display: flex;
     flex-direction: column;
@@ -840,7 +841,7 @@ section.tight { padding: 3rem 0; }
     border: 1.5px solid var(--divider);
     border-radius: var(--radius);
     font-family: 'DM Sans', sans-serif;
-    font-size: 0.9rem;
+    font-size: 16px; /* 16px min stops iOS auto-zoom on focus */
     color: var(--ink);
     background: var(--ivory);
     transition: border-color 0.2s ease;
@@ -1078,6 +1079,49 @@ section.tight { padding: 3rem 0; }
 .reveal-left { opacity: 0; transform: translateX(-30px); }
 .reveal-right { opacity: 0; transform: translateX(30px); }
 .reveal-scale { opacity: 0; transform: scale(0.95); }
+
+/* ---------- STICKY MOBILE ACTION BAR ---------- */
+.mobile-action-bar { display: none; }
+
+@media (max-width: 768px) {
+    .mobile-action-bar {
+        display: flex;
+        position: fixed;
+        left: 0; right: 0; bottom: 0;
+        z-index: 150;
+        gap: 0.5rem;
+        background: #fff;
+        border-top: 1px solid var(--divider);
+        box-shadow: 0 -4px 20px rgba(0,0,0,0.10);
+        padding: 0.5rem 0.6rem calc(0.5rem + env(safe-area-inset-bottom, 0px));
+    }
+    .mab-btn {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 0.2rem;
+        padding: 0.45rem 0.25rem;
+        border-radius: 10px;
+        font-size: 0.7rem;
+        font-weight: 600;
+        letter-spacing: 0.01em;
+        text-decoration: none;
+        color: var(--green-dark);
+        background: var(--ivory-dark);
+    }
+    .mab-btn svg { width: 19px; height: 19px; }
+    .mab-btn.mab-wa { color: #128C7E; }
+    .mab-btn.mab-book { flex: 1.45; background: var(--green); color: #fff; }
+    .mab-btn.mab-book svg { stroke: #fff; }
+
+    /* the standalone WhatsApp float is now inside the bar */
+    .whatsapp-float { display: none !important; }
+
+    /* keep page content clear of the fixed bar */
+    body { padding-bottom: calc(74px + env(safe-area-inset-bottom, 0px)); }
+}
 
 /* ---------- RESPONSIVE ---------- */
 @media (max-width: 1024px) {

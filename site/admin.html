@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Prices — Littlefield Manor Admin</title>
+    <title>Manage — Littlefield Manor</title>
+    <meta name="robots" content="noindex, nofollow">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garant:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -119,7 +120,7 @@
             border: 1.5px solid var(--divider);
             border-radius: var(--radius);
             font-family: 'DM Sans', sans-serif;
-            font-size: 0.95rem;
+            font-size: 16px;
             color: var(--text);
             background: white;
             outline: none;
@@ -357,6 +358,109 @@
             .topbar    { padding: 1rem; }
             .dashboard-body { padding: 1.5rem 1rem; }
         }
+
+        /* ── Tabs ── */
+        .admin-tabs {
+            display: flex;
+            gap: 0.5rem;
+            background: white;
+            border: 1px solid var(--divider);
+            border-radius: 12px;
+            padding: 0.35rem;
+            margin-bottom: 2rem;
+        }
+        .tab-btn {
+            flex: 1;
+            background: transparent;
+            border: none;
+            padding: 0.7rem 1.25rem;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--muted);
+            cursor: pointer;
+            border-radius: 9px;
+            transition: background 0.15s, color 0.15s;
+        }
+        .tab-btn:hover:not(.active) { background: var(--ivory); color: var(--text); }
+        .tab-btn.active { background: var(--green); color: white; }
+        .tab-panel { display: none; }
+        .tab-panel.active { display: block; }
+
+        /* ── Gallery uploader ── */
+        .gallery-uploader { margin-bottom: 2rem; }
+        .upload-zone {
+            position: relative;
+            border: 2px dashed var(--divider);
+            border-radius: 14px;
+            padding: 2.25rem 1.5rem;
+            text-align: center;
+            background: white;
+            cursor: pointer;
+            transition: border-color 0.2s, background 0.2s;
+        }
+        .upload-zone:hover, .upload-zone.dragover { border-color: var(--green); background: var(--green-light); }
+        .upload-zone input[type="file"] { position: absolute; inset: 0; opacity: 0; width: 100%; height: 100%; cursor: pointer; }
+        .upload-zone__icon { font-size: 2rem; display: block; margin-bottom: 0.5rem; }
+        .upload-zone p { font-size: 0.9rem; color: var(--muted); margin: 0; }
+        .upload-zone strong { color: var(--green); }
+        .upload-hint { font-size: 0.75rem !important; margin-top: 0.35rem !important; opacity: 0.8; }
+        #g-preview {
+            display: none;
+            margin-top: 1rem;
+            max-height: 220px;
+            width: 100%;
+            object-fit: cover;
+            border-radius: 12px;
+            border: 1px solid var(--divider);
+        }
+        #g-upload-btn { margin-top: 1rem; }
+
+        /* ── Gallery manage grid ── */
+        .gallery-manage {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 0.85rem;
+        }
+        .g-item {
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--divider);
+            background: white;
+            aspect-ratio: 4 / 3;
+        }
+        .g-item img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .g-item .btn-delete {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            background: rgba(255,255,255,0.92);
+            border: 1px solid var(--divider);
+            color: #b91c1c;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.72rem;
+            font-weight: 600;
+            padding: 0.35rem 0.6rem;
+            border-radius: 8px;
+            cursor: pointer;
+            opacity: 0;
+            transition: opacity 0.15s, background 0.15s;
+        }
+        .g-item:hover .btn-delete { opacity: 1; }
+        .g-item .btn-delete:hover { background: #fee2e2; }
+        @media (hover: none) { .g-item .btn-delete { opacity: 1; } }
+
+        .success-msg {
+            background: #ecfdf5;
+            border: 1px solid #6ee7b7;
+            color: #047857;
+            border-radius: var(--radius);
+            padding: 0.75rem 1rem;
+            font-size: 0.85rem;
+            margin-bottom: 1.25rem;
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -375,21 +479,18 @@
             <span class="login-logo-sub">Riding School · Admin</span>
         </div>
 
-        <h1 class="login-title">Price Manager</h1>
-        <p class="login-hint">Sign in to update your lesson prices</p>
+        <h1 class="login-title">Site Manager</h1>
+        <p class="login-hint">Enter your email and we'll send you a secure login link — no password needed.</p>
 
-        <div class="error-msg" id="login-error"></div>
+        <div class="error-msg"   id="login-error"></div>
+        <div class="success-msg" id="login-success"></div>
 
         <form id="login-form">
             <div class="field">
                 <label for="email">Email</label>
-                <input type="email" id="email" required autocomplete="username">
+                <input type="email" id="email" required autocomplete="email">
             </div>
-            <div class="field">
-                <label for="password">Password</label>
-                <input type="password" id="password" required autocomplete="current-password">
-            </div>
-            <button type="submit" class="btn-primary" id="login-btn">Sign in</button>
+            <button type="submit" class="btn-primary" id="login-btn">Email me a login link</button>
         </form>
     </div>
 </div>
@@ -399,20 +500,51 @@
     <div class="topbar">
         <div class="topbar-brand">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-            Littlefield Manor <span>/ Prices</span>
+            Littlefield Manor <span>/ Manager</span>
         </div>
         <button class="btn-logout" id="logout-btn">Sign out</button>
     </div>
 
     <div class="dashboard-body">
-        <h1 class="page-heading">Your Prices</h1>
-        <p class="page-sub">Click <strong>Edit</strong> on any row to update the price. Changes go live on your website instantly.</p>
 
-        <div class="price-table" id="price-table">
-            <div class="loading-row">Loading prices&hellip;</div>
+        <div class="admin-tabs">
+            <button class="tab-btn active" data-tab="prices">Prices</button>
+            <button class="tab-btn" data-tab="gallery">Gallery</button>
         </div>
 
-        <p class="last-updated" id="last-updated"></p>
+        <!-- ── PRICES TAB ── -->
+        <div class="tab-panel active" id="tab-prices">
+            <h1 class="page-heading">Your Prices</h1>
+            <p class="page-sub">Click <strong>Edit</strong> on any row to update the price. Changes go live on your website instantly.</p>
+
+            <div class="price-table" id="price-table">
+                <div class="loading-row">Loading prices&hellip;</div>
+            </div>
+
+            <p class="last-updated" id="last-updated"></p>
+        </div>
+
+        <!-- ── GALLERY TAB ── -->
+        <div class="tab-panel" id="tab-gallery">
+            <h1 class="page-heading">Your Gallery</h1>
+            <p class="page-sub">Add new photos or remove ones you don't want. Changes go live on your website instantly.</p>
+
+            <div class="gallery-uploader">
+                <div class="upload-zone" id="upload-zone">
+                    <input type="file" id="g-image" accept="image/jpeg,image/png,image/webp">
+                    <span class="upload-zone__icon">🖼️</span>
+                    <p><strong>Click to upload</strong> or drag a photo here</p>
+                    <p class="upload-hint">JPG, PNG or WEBP &middot; up to 5 MB</p>
+                </div>
+                <img id="g-preview" alt="Preview of the photo to add">
+                <button class="btn-save" id="g-upload-btn" style="display:none;">Add photo</button>
+                <div class="save-status" id="g-status"></div>
+            </div>
+
+            <div class="gallery-manage" id="gallery-manage">
+                <div class="loading-row">Loading photos&hellip;</div>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -422,29 +554,40 @@ var SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYm
 
 var sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-// ── Auth ──────────────────────────────────────────────────
-var loginForm  = document.getElementById('login-form');
-var loginBtn   = document.getElementById('login-btn');
-var loginError = document.getElementById('login-error');
-var logoutBtn  = document.getElementById('logout-btn');
+// ── Auth (passwordless magic link) ────────────────────────
+var loginForm    = document.getElementById('login-form');
+var loginBtn     = document.getElementById('login-btn');
+var loginError   = document.getElementById('login-error');
+var loginSuccess = document.getElementById('login-success');
+var logoutBtn    = document.getElementById('logout-btn');
 
 loginForm.addEventListener('submit', async function(e) {
     e.preventDefault();
     loginBtn.disabled = true;
-    loginBtn.textContent = 'Signing in…';
-    loginError.style.display = 'none';
+    loginBtn.textContent = 'Sending…';
+    loginError.style.display   = 'none';
+    loginSuccess.style.display = 'none';
 
-    var email    = document.getElementById('email').value;
-    var password = document.getElementById('password').value;
+    var email = document.getElementById('email').value.trim();
 
-    var { error } = await sb.auth.signInWithPassword({ email, password });
+    // Send the login link back to this same admin page.
+    var redirectTo = window.location.origin + window.location.pathname;
+    var { error } = await sb.auth.signInWithOtp({
+        email: email,
+        options: { emailRedirectTo: redirectTo }
+    });
+
     if (error) {
-        loginError.textContent = 'Incorrect email or password. Please try again.';
+        loginError.textContent = error.message || 'Could not send the link. Please try again.';
         loginError.style.display = 'block';
         loginBtn.disabled = false;
-        loginBtn.textContent = 'Sign in';
+        loginBtn.textContent = 'Email me a login link';
+    } else {
+        loginSuccess.textContent = "Check your email — we've sent a login link. Open it on this device to sign in.";
+        loginSuccess.style.display = 'block';
+        loginBtn.textContent = 'Link sent ✓';
+        // Stay disabled; Linda signs in by clicking the emailed link.
     }
-    // session change handled by onAuthStateChange
 });
 
 logoutBtn.addEventListener('click', function() { sb.auth.signOut(); });
@@ -458,8 +601,21 @@ sb.auth.onAuthStateChange(function(event, session) {
         document.getElementById('login-screen').style.display    = 'flex';
         document.getElementById('dashboard-screen').style.display = 'none';
         loginBtn.disabled    = false;
-        loginBtn.textContent = 'Sign in';
+        loginBtn.textContent = 'Email me a login link';
+        loginSuccess.style.display = 'none';
     }
+});
+
+// ── Tabs ──────────────────────────────────────────────────
+var galleryLoaded = false;
+document.querySelectorAll('.tab-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+        document.querySelectorAll('.tab-btn').forEach(function(b) { b.classList.remove('active'); });
+        document.querySelectorAll('.tab-panel').forEach(function(p) { p.classList.remove('active'); });
+        btn.classList.add('active');
+        document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+        if (btn.dataset.tab === 'gallery' && !galleryLoaded) { galleryLoaded = true; loadGallery(); }
+    });
 });
 
 // ── Price data ────────────────────────────────────────────
@@ -618,6 +774,150 @@ function escHtml(str) {
 
 function escAttr(str) {
     return str.replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+
+// ── Gallery ───────────────────────────────────────────────
+var GALLERY_BUCKET = 'littlefield-gallery';
+var gUploadZone  = document.getElementById('upload-zone');
+var gFileInput   = document.getElementById('g-image');
+var gPreview     = document.getElementById('g-preview');
+var gUploadBtn   = document.getElementById('g-upload-btn');
+var gStatus      = document.getElementById('g-status');
+var gPendingFile = null;
+
+function gSlugify(s) {
+    return ((s || 'photo').toLowerCase().trim()
+        .replace(/[^a-z0-9\s-]/g, '')
+        .replace(/\s+/g, '-')
+        .replace(/-+/g, '-')) || 'photo';
+}
+
+function gSetPreview(file) {
+    gPendingFile = file || null;
+    if (gPendingFile) {
+        gPreview.src = URL.createObjectURL(gPendingFile);
+        gPreview.style.display   = 'block';
+        gUploadBtn.style.display = 'inline-flex';
+    } else {
+        gPreview.style.display   = 'none';
+        gUploadBtn.style.display = 'none';
+    }
+    gStatus.className   = 'save-status';
+    gStatus.textContent = '';
+}
+
+gFileInput.addEventListener('change', function() {
+    if (gFileInput.files[0]) gSetPreview(gFileInput.files[0]);
+});
+
+gUploadZone.addEventListener('dragover',  function(e) { e.preventDefault(); gUploadZone.classList.add('dragover'); });
+gUploadZone.addEventListener('dragleave', function()  { gUploadZone.classList.remove('dragover'); });
+gUploadZone.addEventListener('drop', function(e) {
+    e.preventDefault();
+    gUploadZone.classList.remove('dragover');
+    if (e.dataTransfer.files[0]) {
+        gFileInput.files = e.dataTransfer.files;
+        gSetPreview(e.dataTransfer.files[0]);
+    }
+});
+
+gUploadBtn.addEventListener('click', async function() {
+    if (!gPendingFile) return;
+
+    if (gPendingFile.size > 5 * 1024 * 1024) {
+        gStatus.textContent = 'That photo is over 5 MB — please use a smaller one.';
+        gStatus.className   = 'save-status fail';
+        return;
+    }
+
+    gUploadBtn.disabled    = true;
+    gUploadBtn.textContent = 'Uploading…';
+    gStatus.className       = 'save-status';
+
+    try {
+        var ext      = (gPendingFile.name.split('.').pop() || 'jpg').toLowerCase();
+        var base     = gSlugify(gPendingFile.name.replace(/\.[^.]+$/, ''));
+        var fileName = base + '-' + Date.now() + '.' + ext;
+
+        var up = await sb.storage.from(GALLERY_BUCKET).upload(fileName, gPendingFile, { contentType: gPendingFile.type });
+        if (up.error) throw new Error(up.error.message);
+
+        var pub      = sb.storage.from(GALLERY_BUCKET).getPublicUrl(fileName);
+        var imageUrl = pub.data.publicUrl;
+
+        var ins = await sb.from('littlefield_gallery').insert([{
+            image_url: imageUrl,
+            alt: 'Littlefield Manor Riding School, Guildford'
+        }]);
+        if (ins.error) throw new Error(ins.error.message);
+
+        gStatus.textContent = "Added! It's live on your gallery now.";
+        gStatus.className   = 'save-status ok';
+        gFileInput.value    = '';
+        gSetPreview(null);
+        loadGallery();
+    } catch (err) {
+        gStatus.textContent = 'Upload failed — ' + (err.message || 'please try again.');
+        gStatus.className   = 'save-status fail';
+    }
+
+    gUploadBtn.disabled    = false;
+    gUploadBtn.textContent = 'Add photo';
+});
+
+async function loadGallery() {
+    var wrap = document.getElementById('gallery-manage');
+    wrap.innerHTML = '<div class="loading-row">Loading photos&hellip;</div>';
+
+    var { data, error } = await sb.from('littlefield_gallery').select('*').order('created_at', { ascending: false });
+    if (error) {
+        wrap.innerHTML = '<div class="loading-row">Could not load photos. Please refresh.</div>';
+        return;
+    }
+    if (!data || !data.length) {
+        wrap.innerHTML = '<div class="loading-row">No photos yet — add one above.</div>';
+        return;
+    }
+
+    wrap.innerHTML = data.map(function(row) {
+        return '<div class="g-item" id="g-item-' + row.id + '">' +
+            '<img src="' + escAttr(row.image_url) + '" alt="' + escAttr(row.alt || '') + '" loading="lazy">' +
+            '<button class="btn-delete" data-id="' + row.id + '" data-url="' + escAttr(row.image_url) + '">Delete</button>' +
+        '</div>';
+    }).join('');
+
+    wrap.querySelectorAll('.btn-delete').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            deleteGalleryPhoto(parseInt(btn.dataset.id, 10), btn.dataset.url);
+        });
+    });
+}
+
+async function deleteGalleryPhoto(id, imageUrl) {
+    if (!confirm('Remove this photo from your gallery? This cannot be undone.')) return;
+
+    var { error } = await sb.from('littlefield_gallery').delete().eq('id', id);
+    if (error) {
+        alert('Could not remove the photo — please try again.');
+        return;
+    }
+
+    // Best-effort: also delete the stored file if this was an uploaded photo
+    // (seeded photos point at /assets/ and have no object to remove).
+    var marker = '/storage/v1/object/public/' + GALLERY_BUCKET + '/';
+    var idx    = imageUrl.indexOf(marker);
+    if (idx !== -1) {
+        var path = decodeURIComponent(imageUrl.slice(idx + marker.length));
+        sb.storage.from(GALLERY_BUCKET).remove([path]);
+    }
+
+    var el = document.getElementById('g-item-' + id);
+    if (el) el.remove();
+
+    if (!document.querySelectorAll('#gallery-manage .g-item').length) {
+        document.getElementById('gallery-manage').innerHTML =
+            '<div class="loading-row">No photos yet — add one above.</div>';
+    }
 }
 </script>
 </body>

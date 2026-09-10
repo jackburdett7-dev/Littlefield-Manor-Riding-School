@@ -154,62 +154,16 @@ if (priceRows.length) {
     });
 }
 
-/* ---------- GALLERY 3D TILT ---------- */
-if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
-    document.querySelectorAll('.gallery-full .gallery-item').forEach(item => {
-        const img = item.querySelector('img');
-        if (!img) return;
-
-        item.addEventListener('mousemove', e => {
-            const r = item.getBoundingClientRect();
-            const x = (e.clientX - r.left) / r.width  - 0.5;
-            const y = (e.clientY - r.top)  / r.height - 0.5;
-            item.style.transform = `perspective(700px) rotateY(${x * 8}deg) rotateX(${-y * 8}deg) scale(1.02)`;
-            item.style.zIndex = '2';
-            item.style.transition = 'transform 0.1s cubic-bezier(0.25, 0, 0, 1)';
-        });
-
-        item.addEventListener('mouseleave', () => {
-            item.style.transform = '';
-            item.style.zIndex = '';
-            item.style.transition = 'transform 0.4s cubic-bezier(0.25, 0, 0, 1)';
-        });
-    });
-}
-
-/* ---------- GALLERY LIGHTBOX (with prev/next) ---------- */
-const galleryItems = document.querySelectorAll('.gallery-full .gallery-item img');
-if (galleryItems.length) {
+/* ---------- FULL GALLERY (3D tilt + lightbox) ----------
+   Exposed as window.initLittlefieldGallery() so it can be (re)run after
+   gallery.js injects photos from Supabase. Idempotent — safe to call again. */
+window.initLittlefieldGallery = (function () {
+    let lightbox, lbImg, lbCounter;
+    let imgs = [];
     let currentIndex = 0;
-    const imgs = Array.from(galleryItems);
+    let wired = false;
 
-    const lightbox = document.createElement('div');
-    lightbox.id = 'lightbox';
-    lightbox.innerHTML = `
-        <div class="lb-backdrop"></div>
-        <span class="lb-counter"></span>
-        <button class="lb-close" aria-label="Close">×</button>
-        <button class="lb-nav lb-prev" aria-label="Previous">&#8592;</button>
-        <img class="lb-img" src="" alt="">
-        <button class="lb-nav lb-next" aria-label="Next">&#8594;</button>
-    `;
-    lightbox.style.cssText = 'display:none; position:fixed; inset:0; z-index:200; align-items:center; justify-content:center;';
-    document.body.appendChild(lightbox);
-
-    const lbBackdrop = lightbox.querySelector('.lb-backdrop');
-    const lbImg      = lightbox.querySelector('.lb-img');
-    const lbClose    = lightbox.querySelector('.lb-close');
-    const lbPrev     = lightbox.querySelector('.lb-prev');
-    const lbNext     = lightbox.querySelector('.lb-next');
-    const lbCounter  = lightbox.querySelector('.lb-counter');
-
-    lbBackdrop.style.cssText = 'position:absolute; inset:0; background:rgba(0,0,0,0.92); cursor:pointer;';
-    lbImg.style.cssText      = 'position:relative; z-index:1; max-width:88vw; max-height:86vh; object-fit:contain; border-radius:8px; transition:opacity 0.2s ease;';
-    lbClose.style.cssText    = 'position:absolute; top:1.5rem; right:2rem; color:white; font-size:2.5rem; z-index:4; cursor:pointer; background:none; border:none; line-height:1; opacity:0.7; transition:opacity 0.2s;';
-    lbClose.addEventListener('mouseover', () => lbClose.style.opacity = '1');
-    lbClose.addEventListener('mouseout',  () => lbClose.style.opacity = '0.7');
-
-    const showImage = index => {
+    function showImage(index) {
         currentIndex = (index + imgs.length) % imgs.length;
         lbImg.style.opacity = '0';
         setTimeout(() => {
@@ -218,35 +172,127 @@ if (galleryItems.length) {
             lbImg.style.opacity = '1';
         }, 120);
         lbCounter.textContent = `${currentIndex + 1} / ${imgs.length}`;
-    };
+    }
 
-    const openLightbox = index => {
+    function openLightbox(index) {
         lightbox.style.display = 'flex';
         document.body.style.overflow = 'hidden';
-        gsap.fromTo(lightbox, { opacity: 0 }, { opacity: 1, duration: 0.2, ease: 'power1.out' });
+        if (window.gsap) gsap.fromTo(lightbox, { opacity: 0 }, { opacity: 1, duration: 0.2, ease: 'power1.out' });
         showImage(index);
-    };
+    }
 
-    const closeLightbox = () => {
+    function closeLightbox() {
         lightbox.style.display = 'none';
         document.body.style.overflow = '';
         lbImg.src = '';
+    }
+
+    function buildLightbox() {
+        lightbox = document.createElement('div');
+        lightbox.id = 'lightbox';
+        lightbox.innerHTML = `
+            <div class="lb-backdrop"></div>
+            <span class="lb-counter"></span>
+            <button class="lb-close" aria-label="Close">×</button>
+            <button class="lb-nav lb-prev" aria-label="Previous">&#8592;</button>
+            <img class="lb-img" src="" alt="">
+            <button class="lb-nav lb-next" aria-label="Next">&#8594;</button>
+        `;
+        lightbox.style.cssText = 'display:none; position:fixed; inset:0; z-index:200; align-items:center; justify-content:center;';
+        document.body.appendChild(lightbox);
+
+        const lbBackdrop = lightbox.querySelector('.lb-backdrop');
+        lbImg     = lightbox.querySelector('.lb-img');
+        lbCounter = lightbox.querySelector('.lb-counter');
+        const lbClose = lightbox.querySelector('.lb-close');
+        const lbPrev  = lightbox.querySelector('.lb-prev');
+        const lbNext  = lightbox.querySelector('.lb-next');
+
+        lbBackdrop.style.cssText = 'position:absolute; inset:0; background:rgba(0,0,0,0.92); cursor:pointer;';
+        lbImg.style.cssText      = 'position:relative; z-index:1; max-width:88vw; max-height:86vh; object-fit:contain; border-radius:8px; transition:opacity 0.2s ease;';
+        lbClose.style.cssText    = 'position:absolute; top:1.5rem; right:2rem; color:white; font-size:2.5rem; z-index:4; cursor:pointer; background:none; border:none; line-height:1; opacity:0.7; transition:opacity 0.2s;';
+        lbClose.addEventListener('mouseover', () => lbClose.style.opacity = '1');
+        lbClose.addEventListener('mouseout',  () => lbClose.style.opacity = '0.7');
+
+        lbClose.addEventListener('click', closeLightbox);
+        lbBackdrop.addEventListener('click', closeLightbox);
+        lbPrev.addEventListener('click', () => showImage(currentIndex - 1));
+        lbNext.addEventListener('click', () => showImage(currentIndex + 1));
+
+        document.addEventListener('keydown', e => {
+            if (!lightbox || lightbox.style.display !== 'flex') return;
+            if (e.key === 'Escape')     closeLightbox();
+            if (e.key === 'ArrowLeft')  showImage(currentIndex - 1);
+            if (e.key === 'ArrowRight') showImage(currentIndex + 1);
+        });
+
+        wired = true;
+    }
+
+    return function initLittlefieldGallery() {
+        const items = document.querySelectorAll('.gallery-full .gallery-item');
+        if (!items.length) return;
+
+        /* 3D tilt — desktop pointers only */
+        if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+            items.forEach(item => {
+                if (item.dataset.tiltBound) return;
+                const img = item.querySelector('img');
+                if (!img) return;
+                item.dataset.tiltBound = '1';
+                item.addEventListener('mousemove', e => {
+                    const r = item.getBoundingClientRect();
+                    const x = (e.clientX - r.left) / r.width  - 0.5;
+                    const y = (e.clientY - r.top)  / r.height - 0.5;
+                    item.style.transform = `perspective(700px) rotateY(${x * 8}deg) rotateX(${-y * 8}deg) scale(1.02)`;
+                    item.style.zIndex = '2';
+                    item.style.transition = 'transform 0.1s cubic-bezier(0.25, 0, 0, 1)';
+                });
+                item.addEventListener('mouseleave', () => {
+                    item.style.transform = '';
+                    item.style.zIndex = '';
+                    item.style.transition = 'transform 0.4s cubic-bezier(0.25, 0, 0, 1)';
+                });
+            });
+        }
+
+        /* Lightbox — rebuild the image list each call so it tracks injected photos */
+        imgs = Array.from(document.querySelectorAll('.gallery-full .gallery-item img'));
+        if (!imgs.length) return;
+        if (!wired) buildLightbox();
+        imgs.forEach((img, i) => {
+            if (img.dataset.lbBound) return;
+            img.dataset.lbBound = '1';
+            img.addEventListener('click', () => openLightbox(i));
+        });
     };
+})();
 
-    imgs.forEach((img, i) => img.addEventListener('click', () => openLightbox(i)));
+/* Bind any statically-rendered gallery immediately (no-op elsewhere).
+   On gallery.html, gallery.js calls this again after loading Supabase photos. */
+window.initLittlefieldGallery();
 
-    lbClose.addEventListener('click', closeLightbox);
-    lbBackdrop.addEventListener('click', closeLightbox);
-    lbPrev.addEventListener('click', () => showImage(currentIndex - 1));
-    lbNext.addEventListener('click', () => showImage(currentIndex + 1));
-
-    document.addEventListener('keydown', e => {
-        if (lightbox.style.display !== 'flex') return;
-        if (e.key === 'Escape')     closeLightbox();
-        if (e.key === 'ArrowLeft')  showImage(currentIndex - 1);
-        if (e.key === 'ArrowRight') showImage(currentIndex + 1);
-    });
-}
+/* ---------- STICKY MOBILE ACTION BAR ---------- */
+(function () {
+    if (document.querySelector('.mobile-action-bar')) return;
+    var bar = document.createElement('div');
+    bar.className = 'mobile-action-bar';
+    bar.setAttribute('aria-label', 'Quick contact');
+    bar.innerHTML =
+        '<a href="tel:07973302316" class="mab-btn">' +
+            '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.57 3.49 2 2 0 0 1 3.57 1.27h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 9a16 16 0 0 0 6 6l1.09-1.09a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>' +
+            'Call' +
+        '</a>' +
+        '<a href="https://wa.me/447973302316" target="_blank" rel="noopener" class="mab-btn mab-wa">' +
+            '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347"/></svg>' +
+            'WhatsApp' +
+        '</a>' +
+        '<a href="contact.html" class="mab-btn mab-book">' +
+            '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>' +
+            'Book a Lesson' +
+        '</a>';
+    document.body.appendChild(bar);
+}());
 
 /* ---------- HOMEPAGE GALLERY LIGHTBOX (preview grid) ---------- */
 const previewImgs = document.querySelectorAll('.gallery-grid img');
@@ -287,18 +333,6 @@ if (previewImgs.length) {
             lightboxP.style.display = 'none';
             document.body.style.overflow = '';
         }
-    });
-}
-
-/* ---------- CONTACT FORM ---------- */
-const contactForm = document.getElementById('contactForm');
-if (contactForm) {
-    contactForm.addEventListener('submit', e => {
-        e.preventDefault();
-        const btn = contactForm.querySelector('button[type="submit"]');
-        btn.textContent = 'Sent! Linda will be in touch soon.';
-        btn.style.background = '#2a7c47';
-        btn.disabled = true;
     });
 }
 

@@ -4,7 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gallery | Littlefield Manor Riding School Guildford</title>
-    <meta name="description" content="Photos of Littlefield Manor Riding School in Worplesdon, Guildford — horses, the all-weather arena, lessons, and pony days with Linda.">
+    <meta name="description" content="Photos of Littlefield Manor Riding School in Worplesdon, Guildford — horses, the arena, lessons, and pony days with Linda.">
+    <link rel="canonical" href="https://horseridingguildford.co.uk/gallery">
+    <meta name="theme-color" content="#2a5c3d">
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+    <link rel="apple-touch-icon" href="assets/favicon.svg">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Littlefield Manor Riding School">
+    <meta property="og:title" content="Gallery | Littlefield Manor Riding School Guildford">
+    <meta property="og:description" content="Photos of Littlefield Manor Riding School in Worplesdon, Guildford — horses, the arena, lessons, and pony days with Linda.">
+    <meta property="og:url" content="https://horseridingguildford.co.uk/gallery">
+    <meta property="og:image" content="https://horseridingguildford.co.uk/assets/gallery/1.jpg">
+    <meta name="twitter:card" content="summary_large_image">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garant:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300;1,9..40,400&display=swap" rel="stylesheet">
@@ -57,8 +68,7 @@
             </a>
             <ul class="nav-links" role="list">
                 <li><a href="lessons.html">Lessons</a></li>
-                <li><a href="pony-days.html">Pony Days</a></li>
-                <li><a href="about.html">About Linda</a></li>
+                <li><a href="pony-days.html">Pony Days &amp; Parties</a></li>
                 <li><a href="gallery.html" class="nav-active">Gallery</a></li>
                 <li><a href="prices.html">Prices</a></li>
             </ul>
@@ -70,7 +80,6 @@
 <div class="mobile-menu">
     <a href="lessons.html">Lessons</a>
     <a href="pony-days.html">Pony Days &amp; Parties</a>
-    <a href="about.html">About Linda</a>
     <a href="gallery.html">Gallery</a>
     <a href="prices.html">Prices</a>
     <a href="contact.html" style="color:var(--green)">Book a Lesson</a>
@@ -86,10 +95,9 @@
 
 <section>
     <div class="container">
-        <!-- NOTE: Replace placeholder items with Linda's 12 gallery photos.
-             Photos are named 1.jpg through 12.jpg — add them to assets/gallery/
-             The current site at horseridingguildford.co.uk has 12 images available.
-             Ask Linda to supply originals for best quality. -->
+        <!-- Photos load dynamically from Supabase via js/gallery.js (Linda manages
+             them in the /admin Gallery tab). The static items below are a fallback
+             that shows if the fetch fails, so the page is never blank. -->
         <div class="gallery-full stagger-children">
             <div class="gallery-item tall">
                 <img src="assets/gallery/1.jpg" alt="Horse jumping a show jump in the all-weather arena at Littlefield Manor" loading="lazy">
@@ -161,5 +169,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" crossorigin="anonymous"></script>
 <script src="js/main.js"></script>
+<script src="js/gallery.js"></script>
 </body>
 </html>
