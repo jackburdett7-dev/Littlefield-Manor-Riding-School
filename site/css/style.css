@@ -782,33 +782,33 @@ section.tight { padding: 3rem 0; }
     min-height: 460px;
 }
 
-/* ---------- WHATSAPP BUTTON ---------- */
-.whatsapp-float {
+/* ---------- TEXT MESSAGE BUTTON ---------- */
+.text-float {
     position: fixed;
     bottom: 2rem;
     right: 2rem;
     z-index: 50;
     width: 56px;
     height: 56px;
-    background: #25d366;
+    background: var(--green);
+    color: white;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 4px 20px rgba(37,211,102,0.4);
+    box-shadow: 0 4px 20px rgba(42,92,61,0.35);
     transition: transform 0.25s ease, box-shadow 0.25s ease;
     text-decoration: none;
 }
 
-.whatsapp-float:hover {
+.text-float:hover {
     transform: scale(1.1);
-    box-shadow: 0 8px 28px rgba(37,211,102,0.5);
+    box-shadow: 0 8px 28px rgba(42,92,61,0.45);
 }
 
-.whatsapp-float svg {
-    width: 28px;
-    height: 28px;
-    fill: white;
+.text-float svg {
+    width: 26px;
+    height: 26px;
 }
 
 /* ---------- CONTACT FORM ---------- */
@@ -1112,12 +1112,11 @@ section.tight { padding: 3rem 0; }
         background: var(--ivory-dark);
     }
     .mab-btn svg { width: 19px; height: 19px; }
-    .mab-btn.mab-wa { color: #128C7E; }
     .mab-btn.mab-book { flex: 1.45; background: var(--green); color: #fff; }
     .mab-btn.mab-book svg { stroke: #fff; }
 
-    /* the standalone WhatsApp float is now inside the bar */
-    .whatsapp-float { display: none !important; }
+    /* the standalone text float is now inside the bar */
+    .text-float { display: none !important; }
 
     /* keep page content clear of the fixed bar */
     body { padding-bottom: calc(74px + env(safe-area-inset-bottom, 0px)); }
@@ -1166,6 +1165,6 @@ section.tight { padding: 3rem 0; }
 
 /* ---------- PRINT ---------- */
 @media print {
-    .nav, .whatsapp-float, .footer { display: none; }
+    .nav, .text-float, .footer { display: none; }
     body { background: white; }
 }
