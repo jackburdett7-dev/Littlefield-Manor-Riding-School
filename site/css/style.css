@@ -991,7 +991,9 @@ section.tight { padding: 3rem 0; }
     gap: 1rem;
 }
 
-.footer-bottom p { font-size: 0.78rem; color: rgba(255,255,255,0.4); }
+.footer-bottom p { font-size: 0.78rem; color: rgba(255,255,255,0.6); }
+.footer-bottom p a { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
+.footer-bottom p a:hover { color: white; }
 
 .footer-phone {
     display: flex;
